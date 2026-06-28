@@ -408,7 +408,10 @@
         <p class="doctor-role">Oberarzt für Orthopädie und Unfallchirurgie, zertifizierter Fußchirurg, Zusatzbezeichnung für spezielle Unfallchirurgie</p>
       </article>
 
-      <form class="booking" id="booking" novalidate>
+      <form class="booking" id="booking" action="https://formsubmit.co/okornilovs@gmail.com" method="POST" novalidate>
+        <input type="hidden" name="_subject" value="Новая заявка на приём к Dr. med. Olegs Kornilovs" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_captcha" value="false" />
         <h2>Форма записи</h2>
         <p>Оставьте заявку на консультацию. Администратор клиники свяжется с вами для подтверждения времени приёма.</p>
         <div class="form-grid">
@@ -483,52 +486,18 @@
     });
 
     form.addEventListener('submit', (event) => {
-      event.preventDefault();
       dateInput.setCustomValidity(isWeekday(dateInput.value) ? '' : 'Пожалуйста, выберите день с понедельника по пятницу.');
       if (!form.checkValidity()) {
+        event.preventDefault();
         form.reportValidity();
         return;
       }
-      const data = new FormData(form);
-      const name = data.get('name');
-      const phone = data.get('phone');
-      const email = data.get('email');
-      const birthdate = data.get('birthdate') || 'Не указана';
-      const specialty = data.get('specialty');
-      const language = data.get('language');
-      const date = data.get('date');
-      const time = data.get('time');
-      const reason = data.get('reason') || 'Не указана';
-      const subject = `Запись на приём: ${name}, ${date} ${time}`;
-      const body = [
-        'Новая заявка на приём',
-        '',
-        `ФИО пациента: ${name}`,
-        `Телефон: ${phone}`,
-        `Email: ${email}`,
-        `Дата рождения: ${birthdate}`,
-        `Направление: ${specialty}`,
-        `Желаемая дата: ${date}`,
-        `Время: ${time}`,
-        `Язык общения: ${language}`,
-        `Причина обращения: ${reason}`,
-        '',
-        'Адрес приёма:',
-        'Gladbacherstr. 26, 40219 Düsseldorf',
-        'Abteilung für Orthopädie und Unfallchirurgie'
-      ].join('\n');
-      const mailto = `mailto:okornilovs@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.location.href = mailto;
-      notice.textContent = `Спасибо, ${name}. Подготовлено письмо на okornilovs@gmail.com с данными заявки на ${date} в ${time}. Если почтовая программа не открылась, отправьте заявку вручную на этот адрес.`;
+      notice.textContent = 'Заявка отправляется на okornilovs@gmail.com...';
       notice.classList.add('is-visible');
-      form.reset();
-      dateInput.min = today.toISOString().split('T')[0];
-      dateInput.setCustomValidity('');
     });
   </script>
 </body>
 </html>
-
 
 
 
